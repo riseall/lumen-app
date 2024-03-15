@@ -20,3 +20,5 @@ $router->get('/', function () use ($router) {
 $router->get('/hello', function (){
     return "Hello World!!";
 });
+
+$router->get('/books', 'BooksController@index');

@@ -1,12 +1,10 @@
 <?php
 
-namespace Database\Seeders;
-
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class BooksTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
-        
         DB::table('books')->insert([
             'title' => 'War of the Worlds',
             'description' => 'A science fiction masterpiece about Martians invading London',
