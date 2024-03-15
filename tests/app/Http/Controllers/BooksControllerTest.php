@@ -5,7 +5,9 @@ namespace Tests;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class ExampleTest extends TestCase
+use Tests\TestCase;
+
+class BooksControllerTest extends TestCase
 {
     /**
      * A basic test example.
@@ -14,10 +16,17 @@ class ExampleTest extends TestCase
      */
     public function test_that_base_endpoint_returns_a_successful_response()
     {
-        $this->get('/');
+        $this
+            ->get('/books')
+            ->seeJson([
+                'title' => 'Wayahe Ngopi'
+            ])
+            ->seeJson([
+                'title'=> '21 Lessons'
+            ]);
 
-        $this->assertEquals(
+    /*$this->assertEquals(
             $this->app->version(), $this->response->getContent()
-        );
+        );*/
     }
 }
