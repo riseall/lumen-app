@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-
 class BooksController extends Controller
 {
     /**
@@ -13,7 +12,8 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return Book::all();
+        $books = Book::all();
+        return response()->json($books);
     }
 
     //
