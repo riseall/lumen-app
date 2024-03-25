@@ -16,16 +16,16 @@ class BooksControllerTest extends TestCase
      */
     //public function test_that_base_endpoint_returns_a_successful_response()
     //{
-        // $this
-        //     ->get('/books')
-        //     ->seeJson([
-        //         'title' => 'Wayahe Ngopi'
-        //     ])
-        //     ->seeJson([
-        //         'title' => '21 Lessons'
-        //     ]);
+    // $this
+    //     ->get('/books')
+    //     ->seeJson([
+    //         'title' => 'Wayahe Ngopi'
+    //     ])
+    //     ->seeJson([
+    //         'title' => '21 Lessons'
+    //     ]);
 
-        /*$this->assertEquals(
+    /*$this->assertEquals(
             $this->app->version(), $this->response->getContent()
         );*/
     //}
@@ -33,7 +33,19 @@ class BooksControllerTest extends TestCase
     /** @test **/
     public function show_should_return_a_valid_book()
     {
-        $this->markTestIncomplete('Pending test');
+        $this
+            ->get('/books/1')
+            ->seeStatusCode(200)
+            ->seeJson([
+                'id' => 1,
+                'title' => 'War of the Worlds',
+                'description' => 'A science fiction masterpiece about Martians invading London',
+                'author' => 'H. G. Wells'
+            ]);
+
+        $data = json_decode($this->response->getContent(), true);
+        $this->assertArrayHasKey('created_at', $data);
+        $this->assertArrayHasKey('updated_at', $data);
     }
 
     /** @test **/
