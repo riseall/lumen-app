@@ -22,3 +22,5 @@ $router->get('/hello', function (){
 });
 
 $router->get('/books', 'BooksController@index');
+$router->get('/books/{id:[\d]+}', 'BooksController@show');
+$router->post('/books', 'BooksController@store');
