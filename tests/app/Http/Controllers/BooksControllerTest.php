@@ -9,26 +9,23 @@ use Tests\TestCase;
 
 class BooksControllerTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    //public function test_that_base_endpoint_returns_a_successful_response()
-    //{
-    // $this
-    //     ->get('/books')
-    //     ->seeJson([
-    //         'title' => 'Wayahe Ngopi'
-    //     ])
-    //     ->seeJson([
-    //         'title' => '21 Lessons'
-    //     ]);
-
-    /*$this->assertEquals(
-            $this->app->version(), $this->response->getContent()
-        );*/
-    //}
+    /** @test **/
+    public function index_status_code_should_be_200()
+    {
+        $response = $this->get('/books');
+        $response->assertResponseStatus(200);
+    }
+    public function test_that_base_endpoint_returns_a_successful_response()
+    {
+        $this
+            ->get('/books')
+            ->seeJson([
+                'title' => 'War of the Worlds'
+            ])
+            ->seeJson([
+                'title' => 'A Wrinkle in Time'
+            ]);
+    }
 
     /** @test **/
     public function show_should_return_a_valid_book()
@@ -51,12 +48,46 @@ class BooksControllerTest extends TestCase
     /** @test **/
     public function show_should_fail_when_the_book_id_does_not_exist()
     {
-        $this->markTestIncomplete('Pending test');
+        $this
+            ->get('/books/99999')
+            ->seeStatusCode(404)
+            ->seeJson([
+                'error' => [
+                    'message' => 'Book not found'
+                ]
+            ]);
     }
 
     /** @test **/
     public function show_route_should_not_match_an_invalid_route()
     {
-        $this->markTestIncomplete('Pending test');
+        $this->get('/books/this-is-invalid');
+
+        $this->assertDoesNotMatchRegularExpression(
+            '/Book not found/',
+            $this->response->getContent(),
+            'BooksController@show route matching when it should not.'
+        );
+    }
+
+    /** @test **/
+    public function store_should_save_new_book_in_the_database()
+    {
+        $this->post('/books', [
+            'title' => 'The Invisible Man',
+            'description' => 'An invisible man is trapped in the terror of his own
+',
+            'author' => 'H. G. Wells'
+        ]);
+
+        $this
+            ->seeJson(['created' => true])
+            ->seeInDatabase('books', ['title' => 'The Invisible Man']);
+    }
+
+    /** @test */
+    public function store_should_respond_with_a_201_and_location_header_when_successful()
+    {
+        $this->markTestIncomplete('pending');
     }
 }
